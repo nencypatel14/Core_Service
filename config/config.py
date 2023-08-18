@@ -1,7 +1,7 @@
-from pydantic import BaseConfig
+from pydantic_settings import BaseSettings
 
 
-class Settings(BaseConfig):
+class Settings(BaseSettings):
     DEBUG: bool = False
     FROM_MOBILE_NUMBER: str
     ACCOUNT_SID: str
