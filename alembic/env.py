@@ -10,7 +10,7 @@ from config.config import setting
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
-from database.base import Base
+from database.db import Base
 from database import base_model
 
 SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{setting.POSTGRES_USER}:{setting.POSTGRES_PASSWORD}@{setting.POSTGRES_HOSTNAME}:{setting.POSTGRES_PORT}/{setting.POSTGRES_DB}"
