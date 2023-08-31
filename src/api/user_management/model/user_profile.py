@@ -17,7 +17,7 @@ class UserProfile(Base):
     phone_number = Column(String)
     address = Column(String)
 
-    is_active = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=False)  
     created_at = Column(DateTime, default=datetime.utcnow())
     created_by = Column(String, default=False)
     modify_at = Column(DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())

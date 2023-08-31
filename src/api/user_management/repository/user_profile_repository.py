@@ -1,8 +1,5 @@
 import logging
 from sqlalchemy.orm import Session
-
-from src.api.user_management.schema import user_profile_schema
-
 from src.api.user_management.model.user_profile import UserProfile
 
 def add_user_repository(data: dict, db: Session):
@@ -32,7 +29,7 @@ def get_user_info(id: str, db:Session):
     return:
     """
     try:
-        logging.info(f"serach user from database with id: {id}")
+        logging.info(f"seraching user from database with id: {id}")
         user = db.query(UserProfile).filter(UserProfile.profile_id == id).first()
         logging.info(f"get user data with user_id: {user.profile_id}")
     except ArithmeticError as e:
@@ -42,29 +39,26 @@ def get_user_info(id: str, db:Session):
         logging.info("get_user_info: Success")
         return user
 
-def get_update_profile(id: str, data: user_profile_schema.UserProfile, db: Session):
+def get_update_profile(data: dict, db: Session):
     """
     get update data in user_profile table.
-    param: profile_id
-    param: first_name
-    param: last_name
-    param: email
-    param: phone_number
-    param: address
+    param: id
+    param: db
     return:
     """
     try:
-        logging.info(f"serching user from database with python: {id}")
+        id = data['profile_id']
+        data.pop(id)
+        logging.info(f"serching user from database with input id: {id}")
         user_data = db.query(UserProfile).filter(UserProfile.profile_id == id).first()
-        print("user_data.profile_id", user_data.profile_id)
-        if data.first_name:
-            user_data.first_name = data.first_name
+        
+        for key, value in data.items():
+            if hasattr(user_data, key):
+                setattr(user_data, key, value)
+
         db.commit()
         db.refresh(user_data)
-    except Exception as e:
+        return user_data
+    except ArithmeticError as e:
         logging.error(f"Error: update_user: {e}")
         raise Exception("internal_server_error")
-    else:
-        logging.info("get_user_info: Success")
-        return user_data
-    
