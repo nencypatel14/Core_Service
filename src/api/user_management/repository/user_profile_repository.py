@@ -15,7 +15,7 @@ def add_user_repository(data: dict, db: Session):
         db.commit()
         db.refresh(user)
         logging.info(f"added data: {user} with user id: {user.profile_id}.")
-    except ArithmeticError as e:
+    except Exception as e:
         logging.error(f"Error: add_user: {e}")
         raise Exception("internal_server_error")
     else:
@@ -31,8 +31,8 @@ def get_user_info(id: str, db:Session):
     try:
         logging.info(f"seraching user from database with id: {id}")
         user = db.query(UserProfile).filter(UserProfile.profile_id == id).first()
-        logging.info(f"get user data with user_id: {user.profile_id}")
-    except ArithmeticError as e:
+        logging.info(f"get user data with user_id: {user.profile_id}.")
+    except Exception as e:
         logging.error(f"Error: get_user: {e}")
         raise Exception("internal_sever_error")
     else:
@@ -48,10 +48,11 @@ def get_update_profile(data: dict, db: Session):
     """
     try:
         id = data['profile_id']
-        data.pop(id)
+        data.pop("profile_id")
+
         logging.info(f"serching user from database with input id: {id}")
         user_data = db.query(UserProfile).filter(UserProfile.profile_id == id).first()
-        
+
         for key, value in data.items():
             if hasattr(user_data, key):
                 setattr(user_data, key, value)
