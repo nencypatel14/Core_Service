@@ -6,7 +6,6 @@ from config.config import setting
 from src.api.user_management.sevices.sms_service import SmsService
 from src.api.user_management.schema.sms_service_schema import SmsInput
 
-
 @app.post("/send/user-management")
 async def send_sms(input_sms: SmsInput):
     try:

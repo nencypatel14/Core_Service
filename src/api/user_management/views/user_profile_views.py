@@ -30,7 +30,7 @@ def delete_user(profile_id: str, db: Session = Depends(get_db)):
     db.delete(user)
     db.commit()
     logging.info(f"Delete_user: Success")
-    return { "ok" : True}
+    return "Delete User Data"
 
 
 @router.get("/get/{id}")
