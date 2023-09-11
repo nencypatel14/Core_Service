@@ -1,6 +1,7 @@
 import logging
 from sqlalchemy.orm import Session
 from src.api.user_management.model.user_profile import UserProfile
+from set_response.response import success_response, error_response
 
 def add_user_repository(data: dict, db: Session):
     """
@@ -22,15 +23,15 @@ def add_user_repository(data: dict, db: Session):
         logging.info("add_user_repository: Success")
         return user
 
-def get_user_info(id: str, db:Session):
+def get_user_info(profile_id: str, db:Session):
     """
     get user data in user_profile table.
     param: profile_id
     return:
     """
     try:
-        logging.info(f"seraching user from database with id: {id}")
-        user = db.query(UserProfile).filter(UserProfile.profile_id == id).first()
+        logging.info(f"seraching user from database with id: {profile_id}")
+        user = db.query(UserProfile).filter(UserProfile.profile_id == profile_id).first()
         logging.info(f"get user data with user_id: {user.profile_id}.")
     except Exception as e:
         logging.error(f"Error: get_user: {e}")

@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from database.db import get_db
 from src.api.user_management.repository.user_profile_repository import add_user_repository ,get_user_info ,get_update_profile
 from src.api.user_management.schema.user_profile_schema import UserProfileResponse, UpdateUserProfile, UserProfile
-
+from fastapi.responses import JSONResponse
+from set_response.response import success_response, error_response
 
 router = APIRouter(prefix="/user")
 
@@ -15,21 +16,30 @@ router = APIRouter(prefix="/user")
 async def add_user(user_data: UserProfile, db: Session = Depends(get_db)):
     try:
         logging.info(f"add user data: {user_data}")
-        user = add_user_repository(user_data.__dict__, db)
-        logging.info(f"added data: {user} with user id: {user.profile_id}.")
+
+        if user_data.first_name == None or user_data.email == None: 
+            logging.warning("please enter first_name or email.")
+            raise Exception("Please Enter valid first_name or email")
+        else:
+            user = add_user_repository(user_data.__dict__, db)
+            logging.info(f"added data: {user} with user id: {user.profile_id}.")
         return user
     except Exception as e:    
         logging.error(f"Error - user_data: {e}")
-        raise Exception("internal_sever_error")
+        return error_response({"message": str(e)})
 
 
-@router.delete("/delete/{profile_id}")
-def delete_user(profile_id: str, db: Session = Depends(get_db)):    
-    user = get_user_info(profile_id, db)
-    logging.info(f"Deleted data: {user} from table with user id: {user.profile_id}. ")
-    db.delete(user)
-    db.commit()
-    logging.info(f"Delete_user: Success")
+@router.delete("/delete/")
+def delete_user(profile_id: str = None, db: Session = Depends(get_db)):
+    if profile_id == None:  
+        logging.warning("Please Enter prfile_id.")
+        return {"message":"Please Enter valid profile_id."}
+    else:
+        user = get_user_info(profile_id, db)
+        logging.info(f"Deleted data: {user} from table with user id: {user.profile_id}. ")
+        db.delete(user)
+        db.commit()
+        logging.info(f"Delete_user: Success")
     return "Delete User Data"
 
 
@@ -38,7 +48,7 @@ async def read_data(id: str, db: Session = Depends(get_db)):
     try:
         logging.info(f"get user data for id: {id}")
         user = get_user_info(id, db)
-        return user
+        return success_response(user)
     except Exception as e:
         logging.error(f"Error - id: {e}")
         raise Exception("internal_sever_error")
@@ -53,7 +63,7 @@ async def update_user_profile(user_data: UpdateUserProfile, db: Session = Depend
 
         user = get_update_profile(data, db=db)
         if user:
-            return jsonable_encoder(user)
+            return success_response(user)
         
         logging.info(f"Updated user data with user id: {user.profile_id}")
     except ArithmeticError as e:

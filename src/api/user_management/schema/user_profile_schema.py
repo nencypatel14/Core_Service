@@ -1,17 +1,19 @@
 from pydantic import BaseModel
 from typing import Optional
+from uuid import UUID
 
 
 class UserProfile(BaseModel):
-    profile_img: Optional[str]
-    first_name: str
-    last_name: Optional[str]
-    email: str
-    phone_number: Optional[str]
-    address: Optional[str]
-        
+    profile_img: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    address: Optional[str] = None
 
+        
 class UserProfileResponse(BaseModel):
+    profile_id: UUID
     profile_img: Optional[str]
     first_name: str
     last_name: Optional[str]
@@ -21,7 +23,7 @@ class UserProfileResponse(BaseModel):
     
 
 class UpdateUserProfile(BaseModel):
-    profile_id: Optional[str]
+    profile_id: str
     profile_img: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
