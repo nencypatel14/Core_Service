@@ -16,6 +16,9 @@ class UserProfile(Base):
     email = Column(String)
     phone_number = Column(String)
     address = Column(String)
+    password = Column(String)
+    role = Column(String)
+    
 
     is_active = Column(Boolean, default=False)  
     created_at = Column(DateTime, default=datetime.utcnow())

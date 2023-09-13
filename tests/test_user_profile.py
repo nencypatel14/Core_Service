@@ -61,7 +61,7 @@ def test_update_user():
         "profile_img": "string",
         "first_name": "hello",
         "last_name": "string",   
-        "email": "mno@gmail.com",
+        "email": "mno@gmail.com",   
         "phone_number": "987654321",
         "address": "test"
     }

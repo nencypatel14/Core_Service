@@ -64,3 +64,21 @@ def get_update_profile(data: dict, db: Session):
     except ArithmeticError as e:
         logging.error(f"Error: update_user: {e}")
         raise Exception("internal_server_error")
+
+
+def get_user(email: str, db:Session):
+    """
+    get user data in user_profile table.
+    param: profile_id
+    return:
+    """
+    try:
+        logging.info(f"seraching user from database with email_id: {email}")
+        user = db.query(UserProfile).filter(UserProfile.email == email).first()
+        logging.info(f"get user data with email_id: {user.email}.")
+    except Exception as e:
+        logging.error(f"Error: get_user: {e}")
+        raise Exception("internal_sever_error")
+    else:
+        logging.info("get_user_info: Success")
+        return user
