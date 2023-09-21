@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional,Union
+from typing import Optional
 from uuid import UUID
 
 
@@ -36,12 +36,3 @@ class UpdateUserProfile(BaseModel):
     address: Optional[str] = None
     password: Optional[str] = None
     role: Optional[str] = None
-    
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    first_name: Union[str, None] = None

@@ -1,13 +1,13 @@
 import logging
 from sqlalchemy.orm import Session
 from src.api.user_management.model.user_profile import UserProfile
-from set_response.response import success_response, error_response
+
 
 def add_user_repository(data: dict, db: Session):
     """
     Add user data in user_profile table.
-    param: email
-    return: 
+    param: data
+    return user: 
     """
     try:
         logging.info(f"adding data: {data} to user info.")
@@ -27,7 +27,7 @@ def get_user_info(profile_id: str, db:Session):
     """
     get user data in user_profile table.
     param: profile_id
-    return:
+    return user:
     """
     try:
         logging.info(f"seraching user from database with id: {profile_id}")
@@ -43,9 +43,8 @@ def get_user_info(profile_id: str, db:Session):
 def get_update_profile(data: dict, db: Session):
     """
     get update data in user_profile table.
-    param: id
-    param: db
-    return:
+    param: data
+    return user data:
     """
     try:
         id = data['profile_id']
@@ -69,8 +68,8 @@ def get_update_profile(data: dict, db: Session):
 def get_user(email: str, db:Session):
     """
     get user data in user_profile table.
-    param: profile_id
-    return:
+    param: email
+    return user:
     """
     try:
         logging.info(f"seraching user from database with email_id: {email}")
@@ -82,3 +81,4 @@ def get_user(email: str, db:Session):
     else:
         logging.info("get_user_info: Success")
         return user
+    

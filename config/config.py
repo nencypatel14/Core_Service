@@ -1,21 +1,13 @@
-from pydantic_settings import BaseSettings
-
+from pydantic_settings import BaseSettings,SettingsConfigDict
+from pydantic import Extra
 
 class Settings(BaseSettings):
+    model_config= SettingsConfigDict(extra=Extra.allow, env_file='./.env', env_file_encoding='utf-8')
     DEBUG: bool = False
-    FROM_MOBILE_NUMBER: str
-    ACCOUNT_SID: str
-    AUTH_TOKEN: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_HOSTNAME: str
     POSTGRES_PORT: str
     POSTGRES_DB: str
-    SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
-    class config:
-        env_file = './.env'
-
-setting = Settings()
+settings = Settings()

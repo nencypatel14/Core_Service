@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 import os, sys
-from config.config import setting
+from config.config import settings
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -13,7 +13,7 @@ sys.path.append(BASE_DIR)
 from database.db import Base
 from database import base_model
 
-SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{setting.POSTGRES_USER}:{setting.POSTGRES_PASSWORD}@{setting.POSTGRES_HOSTNAME}:{setting.POSTGRES_PORT}/{setting.POSTGRES_DB}"
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOSTNAME}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}"
 
 target_metadata = Base.metadata
 

@@ -1,7 +1,4 @@
-import json
-import logging
 from fastapi.responses import JSONResponse
-from os import path
 
 def success_response(data, message="success", meta_code=200, **extra):
     res = {
