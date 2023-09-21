@@ -1,1 +1,1 @@
-# sms_service
+# core_service
