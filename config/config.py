@@ -9,5 +9,13 @@ class Settings(BaseSettings):
     POSTGRES_HOSTNAME: str
     POSTGRES_PORT: str
     POSTGRES_DB: str
+    SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    REFRESH_TOKEN_EXPIRE_MINUTES: int
+    ALGORITHM: str 
+    # IMAGEDIR: str 
+    
+    class config:
+        env_file = './.env'
 
 settings = Settings()

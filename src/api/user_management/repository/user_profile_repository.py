@@ -1,7 +1,11 @@
 import logging
+import shutil
 from sqlalchemy.orm import Session
 from src.api.user_management.model.user_profile import UserProfile
+from src.api.user_management.sevices.password_service import get_password_hash
+from pydantic import EmailStr
 
+from time import sleep
 
 def add_user_repository(data: dict, db: Session):
     """
@@ -9,9 +13,10 @@ def add_user_repository(data: dict, db: Session):
     param: data
     return user: 
     """
-    try:
+    try: 
         logging.info(f"adding data: {data} to user info.")
         user = UserProfile(**data) 
+        user.password = get_password_hash(user.password)
         db.add(user)
         db.commit()
         db.refresh(user)
@@ -59,13 +64,13 @@ def get_update_profile(data: dict, db: Session):
 
         db.commit()
         db.refresh(user_data)
-        return user_data
+        return user_data    
     except ArithmeticError as e:
         logging.error(f"Error: update_user: {e}")
         raise Exception("internal_server_error")
 
 
-def get_user(email: str, db:Session):
+def get_user(email: EmailStr, db:Session):
     """
     get user data in user_profile table.
     param: email
@@ -74,11 +79,22 @@ def get_user(email: str, db:Session):
     try:
         logging.info(f"seraching user from database with email_id: {email}")
         user = db.query(UserProfile).filter(UserProfile.email == email).first()
-        logging.info(f"get user data with email_id: {user.email}.")
+        # logging.info(f"get user data with email_id: {user.email}.")
     except Exception as e:
         logging.error(f"Error: get_user: {e}")
         raise Exception("internal_sever_error")
     else:
         logging.info("get_user_info: Success")
         return user
-    
+
+
+def send_email(message):
+    sleep(5)
+    logging.info('send_email')
+
+
+def upload_file(file):
+    sleep(5)
+    logging.info('file upload successfully')
+    with open("image/"+file.filename, "wb") as f:
+        shutil.copyfileobj(file.file , f)

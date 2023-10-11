@@ -11,9 +11,7 @@ def success_response(data, message="success", meta_code=200, **extra):
     }
     return res
 
-def error_response(message, meta_data=400, status_code=200, data=None):
-    if data is None:
-        data = dict()
+def error_response(message, meta_data=400, status_code=400, data=None):
     res = {
         "data": data,
         "meta": {
